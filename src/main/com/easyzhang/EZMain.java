@@ -12,7 +12,7 @@ public class EZMain {
       public static void main(String[] args){
         //初始化队列
         EzQueue.createEzQueue();
-        EzConnection ezConnection = new EzConnection("https://www.csdn.net/");
+        EzConnection ezConnection = new EzConnection("http://www.woyaogexing.com/touxiang/");
         EzFilter.getQueue(ezConnection.getURLQueue());
 
         new Thread(new EzDownload()).start();
