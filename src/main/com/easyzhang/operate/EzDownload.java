@@ -4,6 +4,7 @@ import com.easyzhang.util.EZLog;
 import com.easyzhang.util.EzQueue;
 
 import java.io.*;
+import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
 
@@ -35,7 +36,9 @@ public class EzDownload implements Runnable{
                         url.length());
 
                 URL uri = new URL(url);
-                InputStream in = uri.openStream();
+                HttpURLConnection connection = (HttpURLConnection) uri.openConnection();
+                connection.setRequestProperty("User-Agent", "Mozilla/4.0 (compatible; MSIE 5.0; Windows NT; DigExt)");
+                InputStream in = connection.getInputStream();
 
                 File saveDir = new File("d:/image");
                 if(!saveDir.exists()){

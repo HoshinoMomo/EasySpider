@@ -23,7 +23,7 @@ public class EzConnection {
              //跟网站建立连接
              URL url = new URL(resURL);
              HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-             connection.setRequestProperty("User-Agent","Mozilla/5.0 (Windows NT 6.3; WOW64; Trident/7.0; rv:11.0) like Gecko");
+             connection.setRequestProperty("User-Agent", "Mozilla/4.0 (compatible; MSIE 5.0; Windows NT; DigExt)");
              connection.connect();
 
              InputStreamReader inputStreamReader = new InputStreamReader(connection.getInputStream(),"UTF-8");
