@@ -12,10 +12,11 @@ import java.net.URLConnection;
 public class EzDownload implements Runnable{
     @Override
     public void run() {
+        System.out.println("下载线程启动。。。。。。。。");
         try {
             while (true){
                 if(!EzQueue.getInstance().isEmpty()){
-                    System.out.println("下载线程启动。。。。。。。。");
+                    System.out.println("下载线程开始下载。。。。。。。。");
                     Thread.sleep(3000);
                     while(!EzQueue.getInstance().isEmpty()){
                        // System.out.println(EzQueue.getInstance().pop().toString());
