@@ -18,6 +18,7 @@ public class Main {
     private JButton button;
     private JTextField textField;
     private JPanel JPanel;
+    private JButton clean;
 
     public Main() {
 
@@ -37,6 +38,13 @@ public class Main {
                 textArea.append(baseURL+"扫描结束,已加入下载队列！\n");
             }
         });
+        clean.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                textArea.setText("");
+                textField.setText("");
+            }
+        });
     }
 
     public static void main(String[] args) {
@@ -44,7 +52,7 @@ public class Main {
         frame.setContentPane(new Main().JPanel);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
-        frame.setSize(1000,600);
+        frame.setSize(680,435);
         frame.setLocation(150,75);
         frame.setVisible(true);
 
