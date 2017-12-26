@@ -13,13 +13,11 @@ import java.net.URLConnection;
 public class EzDownload implements Runnable{
     @Override
     public void run() {
-        System.out.println("下载线程启动。。。。。。。。");
         try {
             while (true){
                 if(!EzQueue.getInstance().isEmpty()){
                     EZLog.getInstance().addMessage("下载线程开始下载。。。。。。。。\n");
                     while(!EzQueue.getInstance().isEmpty()){
-                       // System.out.println(EzQueue.getInstance().pop().toString());
                         download(EzQueue.getInstance().pop().toString());
                     }
                     EZLog.getInstance().addMessage("下载完成！\n");
