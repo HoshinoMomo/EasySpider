@@ -31,15 +31,16 @@ public class EzFilter {
                  StringBuilder stringBuilder = new StringBuilder();
                  if('h' != (a.charAt(0))){
                      stringBuilder.append("https:");
+                     URL url = new URL(stringBuilder.toString());
+                     EzQueue.getInstance().push(url);
                  }
                  stringBuilder.append(a);
                  if('i' == a.charAt(a.length()-1)){
-                     stringBuilder.append("f");
                  }else {
                      stringBuilder.append("g");
+                     URL url = new URL(stringBuilder.toString());
+                     EzQueue.getInstance().push(url);
                  }
-                 URL url = new URL(stringBuilder.toString());
-                 EzQueue.getInstance().push(url);
              }catch (Exception e){
                  e.printStackTrace();
              }
