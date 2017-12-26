@@ -38,7 +38,7 @@ public class EzDownload implements Runnable{
                 URL uri = new URL(url);
                 InputStream in = uri.openStream();
 
-                File saveDir = new File("d:/resource");
+                File saveDir = new File("d:/image");
                 if(!saveDir.exists()){
                     saveDir.mkdir();
                 }
