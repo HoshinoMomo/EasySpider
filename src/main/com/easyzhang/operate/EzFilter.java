@@ -1,5 +1,6 @@
 package com.easyzhang.operate;
 
+import com.easyzhang.util.EZLog;
 import com.easyzhang.util.EzQueue;
 
 import java.net.URL;
@@ -23,7 +24,7 @@ public class EzFilter {
     public static void getQueue(String html) {
          List<String> list = getImageSrc(getImageUrl(html));
          if(list == null|| list.isEmpty()){
-             System.out.println("这个页面没有图片！！！！！");
+             EZLog.getInstance().addMessage("这个页面没有图片！！！！！\n");
              return ;
          }
          list.forEach(a-> {

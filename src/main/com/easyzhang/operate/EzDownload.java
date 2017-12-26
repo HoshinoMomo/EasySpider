@@ -1,5 +1,6 @@
 package com.easyzhang.operate;
 
+import com.easyzhang.util.EZLog;
 import com.easyzhang.util.EzQueue;
 
 import java.io.*;
@@ -16,14 +17,13 @@ public class EzDownload implements Runnable{
         try {
             while (true){
                 if(!EzQueue.getInstance().isEmpty()){
-                    System.out.println("下载线程开始下载。。。。。。。。");
-                    Thread.sleep(3000);
+                    EZLog.getInstance().addMessage("下载线程开始下载。。。。。。。。\n");
                     while(!EzQueue.getInstance().isEmpty()){
                        // System.out.println(EzQueue.getInstance().pop().toString());
                         download(EzQueue.getInstance().pop().toString());
                     }
+                    EZLog.getInstance().addMessage("下载完成！\n");
                 }
-                System.out.println("下载队列为空，休息10秒。。。。。。。");
                 Thread.sleep(10000);
             }
 
@@ -43,7 +43,6 @@ public class EzDownload implements Runnable{
                 if(!saveDir.exists()){
                     saveDir.mkdir();
                 }
-
                 FileOutputStream fo = new FileOutputStream(new File(saveDir+File.separator+imageName));
                 byte[] buf = new byte[1024];
                 int length = 0;
