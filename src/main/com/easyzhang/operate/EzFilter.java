@@ -1,7 +1,8 @@
+/*
 package com.easyzhang.operate;
 
-import com.easyzhang.util.EZLog;
-import com.easyzhang.util.EzQueue;
+import com.easyzhang.util.EzLog;
+import com.easyzhang.util.EzDownloadQueue;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -9,9 +10,11 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+*/
 /**
  * Created by EasyZhang on 2017-12-25.
- */
+ *//*
+
 public class EzFilter {
 
     // 编码
@@ -21,10 +24,10 @@ public class EzFilter {
     // 获取src路径的正则
     private static final String IMGSRC_REG = "(?<=(src=\"))[^\"]*?(?=\")";
 
-    public static void getQueue(String html) {
+    public static void getURLFromHtml(String html) {
          List<String> list = getImageSrc(getImageUrl(html));
          if(list == null|| list.isEmpty()){
-             EZLog.getInstance().addMessage("这个页面没有图片！！！！！\n");
+             EzLog.getInstance().addMessage("这个页面没有图片！！！！！\n");
              return ;
          }
          list.forEach(a-> {
@@ -33,14 +36,14 @@ public class EzFilter {
                  if('h' != (a.charAt(0))){
                      stringBuilder.append("https:");
                      URL url = new URL(stringBuilder.toString());
-                     EzQueue.getInstance().push(url);
+                     EzDownloadQueue.getInstance().push(url);
                  }
                  stringBuilder.append(a);
                  if('i' == a.charAt(a.length()-1)){
                  }else {
                      stringBuilder.append("g");
                      URL url = new URL(stringBuilder.toString());
-                     EzQueue.getInstance().push(url);
+                     EzDownloadQueue.getInstance().push(url);
                  }
              }catch (Exception e){
                  e.printStackTrace();
@@ -69,3 +72,4 @@ public class EzFilter {
         return listImgSrc;
     }
 }
+*/

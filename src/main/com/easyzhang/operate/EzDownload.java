@@ -1,11 +1,10 @@
 package com.easyzhang.operate;
 
-import com.easyzhang.util.EZLog;
-import com.easyzhang.util.EzQueue;
+import com.easyzhang.util.EzLog;
+import com.easyzhang.util.EzDownloadQueue;
 
 import java.io.*;
 import java.net.URL;
-import java.net.URLConnection;
 
 /**
  * Created by EasyZhang on 2017-12-25.
@@ -15,12 +14,12 @@ public class EzDownload implements Runnable{
     public void run() {
         try {
             while (true){
-                if(!EzQueue.getInstance().isEmpty()){
-                    EZLog.getInstance().addMessage("下载线程开始下载。。。。。。。。\n");
-                    while(!EzQueue.getInstance().isEmpty()){
-                        download(EzQueue.getInstance().pop().toString());
+                if(!EzDownloadQueue.getInstance().isEmpty()){
+                   // EzLog.getInstance().addMessage("下载线程开始下载。。。。。。。。\n");
+                    while(!EzDownloadQueue.getInstance().isEmpty()){
+                        download(EzDownloadQueue.getInstance().pop());
                     }
-                    EZLog.getInstance().addMessage("下载完成！\n");
+                //    EzLog.getInstance().addMessage("下载完成！\n");
                 }
                 Thread.sleep(10000);
             }

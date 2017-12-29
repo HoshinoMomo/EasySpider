@@ -1,46 +1,56 @@
 package com.easyzhang.operate;
 
-import com.easyzhang.util.EzQueue;
+import com.easyzhang.util.EzDownloadQueue;
+import com.easyzhang.util.EzWaitQueue;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.select.Elements;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Created by EasyZhang 2017-12-25.
  */
 public class EzConnection {
+     private Set<String> urls = new HashSet<>();
+     public EzConnection(){
 
-     private String resURL = "www.baidu.com";
-
-     public EzConnection(String resURL){
-         this.resURL = resURL;
      }
-
-     public String getURLQueue(){
+     public void getURLHtml(String url){
          try {
-             //跟网站建立连接
-             URL url = new URL(resURL);
-             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-             connection.setRequestProperty("User-Agent","Mozilla/5.0 (Windows NT 6.3; WOW64; Trident/7.0; rv:11.0) like Gecko");
-             connection.connect();
+             System.out.println(url+"页，开始扫描");
+             Document doc = Jsoup.connect(url).get();
+             Elements links = doc.select("a[href]");
+             Elements pngs = doc.select("img[src$=.png]");//所有引用png图片的元素
+             Elements jpgs = doc.select("img[src$=.jpg]");//所有引用png图片的元素
 
-             InputStreamReader inputStreamReader = new InputStreamReader(connection.getInputStream(),"UTF-8");
-             BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
-
-             String line;
-             StringBuffer sb=new StringBuffer();
-             while((line = bufferedReader.readLine())!=null){
-                 sb.append(line,0,line.length());
-                 sb.append('\n');
-             }
-             bufferedReader.close();
-             inputStreamReader.close();
-             return sb.toString();
+             links.forEach(link->{
+                     if(urls.add(link.attr("abs:href"))){
+                         EzWaitQueue.getInstance().push(link.attr("abs:href"));
+                         System.out.println(link.attr("abs:href"));
+                     }
+             });
+             pngs.forEach(link->{
+                // EzDownloadQueue.getInstance().push(link.attr("src"));
+                 System.out.println(link.attr("src"));
+             });
+             jpgs.forEach(link->{
+              //   EzDownloadQueue.getInstance().push(link.attr("src"));
+                 System.out.println(link.attr("src"));
+             });
          }catch (Exception e){
              e.printStackTrace();
          }
-         return null;
+     }
+     public void addDataToQueue(){
+         while (!EzWaitQueue.getInstance().isEmpty()){
+             getURLHtml(EzWaitQueue.getInstance().pop());
+             try {
+                 Thread.sleep(5000);
+             } catch (InterruptedException e) {
+                 e.printStackTrace();
+             }
+         }
      }
 }
