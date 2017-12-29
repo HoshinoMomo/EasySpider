@@ -14,8 +14,9 @@ import java.util.Set;
  */
 public class EzConnection {
      private Set<String> urls = new HashSet<>();
-     public EzConnection(){
-
+     private String baseUrl;
+     public EzConnection(String baseUrl){
+           this.baseUrl = baseUrl;
      }
      public void getURLHtml(String url){
          try {
@@ -26,10 +27,12 @@ public class EzConnection {
              Elements jpgs = doc.select("img[src$=.jpg]");//所有引用png图片的元素
 
              links.forEach(link->{
+                 if(link.attr("abs:href").contains(baseUrl)){
                      if(urls.add(link.attr("abs:href"))){
                          EzWaitQueue.getInstance().push(link.attr("abs:href"));
                          System.out.println(link.attr("abs:href"));
                      }
+                 }
              });
              pngs.forEach(link->{
                 // EzDownloadQueue.getInstance().push(link.attr("src"));

@@ -20,7 +20,7 @@ public class EZMain {
 
         String baseURL = "http://www.woyaogexing.com";
         EzWaitQueue.getInstance().push(baseURL);
-        EzConnection ezConnection = new EzConnection();
+        EzConnection ezConnection = new EzConnection(baseURL);
         ezConnection.addDataToQueue();
 
     }
