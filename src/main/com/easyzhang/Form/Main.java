@@ -2,7 +2,6 @@ package com.easyzhang.Form;
 
 import com.easyzhang.operate.EzConnection;
 import com.easyzhang.operate.EzDownload;
-import com.easyzhang.operate.EzFilter;
 import com.easyzhang.util.EzLog;
 import com.easyzhang.util.EzDownloadQueue;
 import com.easyzhang.util.EzWaitQueue;
@@ -34,11 +33,11 @@ public class Main {
         button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-               /* String baseURL = textField.getText();
-                textArea.append(baseURL+"扫描中。。。。。。。。、 \n");
-                EzConnection ezConnection = new EzConnection(baseURL);
-                EzFilter.getURLFromHtml(ezConnection.getURLQueue());
-                textArea.append(baseURL+"扫描结束,已加入下载队列！\n");*/
+                String baseURL = textField.getText();
+                textArea.append(baseURL+"为起点深度优先遍历 \n");
+                EzWaitQueue.getInstance().push(baseURL);
+                EzLog.getInstance().addMessage("启动扫描线程。。。。\n");
+                new Thread(new EzConnection(baseURL)).start();
             }
         });
         clean.addActionListener(new ActionListener() {

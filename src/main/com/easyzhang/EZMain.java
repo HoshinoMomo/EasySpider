@@ -18,10 +18,10 @@ public class EZMain {
         //启动下载线程
         new Thread(new EzDownload()).start();
 
-        String baseURL = "http://www.woyaogexing.com";
+        String baseURL = "http://www.woyaogexing.com/touxiang/";
         EzWaitQueue.getInstance().push(baseURL);
-        EzConnection ezConnection = new EzConnection(baseURL);
-        ezConnection.addDataToQueue();
+
+        new Thread(new EzConnection(baseURL)).start();
 
     }
 }

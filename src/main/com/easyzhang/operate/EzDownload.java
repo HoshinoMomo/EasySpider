@@ -13,14 +13,14 @@ import java.net.URL;
 public class EzDownload implements Runnable{
     @Override
     public void run() {
+        EzLog.getInstance().addMessage("下载线程开始下载。。。。。。。。\n");
         try {
             while (true){
                 if(!EzDownloadQueue.getInstance().isEmpty()){
-                   // EzLog.getInstance().addMessage("下载线程开始下载。。。。。。。。\n");
                     while(!EzDownloadQueue.getInstance().isEmpty()){
                         download(EzDownloadQueue.getInstance().pop());
                     }
-                //    EzLog.getInstance().addMessage("下载完成！\n");
+                    EzLog.getInstance().addMessage("下载完成！\n");
                 }
                 Thread.sleep(10000);
             }
@@ -43,6 +43,7 @@ public class EzDownload implements Runnable{
                 if(!saveDir.exists()){
                     saveDir.mkdir();
                 }
+                EzLog.getInstance().addMessage("下载:"+saveDir+File.separator+imageName+"\n");
                 FileOutputStream fo = new FileOutputStream(new File(saveDir+File.separator+imageName));
                 byte[] buf = new byte[1024];
                 int length = 0;

@@ -12,7 +12,7 @@ import java.util.Set;
 /**
  * Created by EasyZhang 2017-12-25.
  */
-public class EzConnection {
+public class EzConnection implements Runnable{
      private Set<String> urls = new HashSet<>();
      private String baseUrl;
      public EzConnection(String baseUrl){
@@ -35,25 +35,28 @@ public class EzConnection {
                  }
              });
              pngs.forEach(link->{
-                // EzDownloadQueue.getInstance().push(link.attr("src"));
+                 EzDownloadQueue.getInstance().push(link.attr("src"));
                  System.out.println(link.attr("src"));
              });
              jpgs.forEach(link->{
-              //   EzDownloadQueue.getInstance().push(link.attr("src"));
+                 EzDownloadQueue.getInstance().push(link.attr("src"));
                  System.out.println(link.attr("src"));
              });
          }catch (Exception e){
              e.printStackTrace();
          }
      }
-     public void addDataToQueue(){
-         while (!EzWaitQueue.getInstance().isEmpty()){
-             getURLHtml(EzWaitQueue.getInstance().pop());
-             try {
-                 Thread.sleep(5000);
-             } catch (InterruptedException e) {
-                 e.printStackTrace();
+    @Override
+    public void run() {
+         while(true){
+             if (!EzWaitQueue.getInstance().isEmpty()){
+                 getURLHtml(EzWaitQueue.getInstance().pop());
+                 try {
+                     Thread.sleep(1000);
+                 } catch (InterruptedException e) {
+                     e.printStackTrace();
+                 }
              }
          }
-     }
+    }
 }
