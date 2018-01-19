@@ -18,7 +18,7 @@ public class EZMain {
         //启动下载线程
         new Thread(new EzDownload()).start();
 
-        String baseURL = "http://www.woyaogexing.com/touxiang/";
+        String baseURL = "http://www.83u8.com/tpxs/caob/80350.html";
         EzWaitQueue.getInstance().push(baseURL);
 
         new Thread(new EzConnection(baseURL)).start();
