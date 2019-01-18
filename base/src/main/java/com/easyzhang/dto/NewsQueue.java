@@ -1,4 +1,4 @@
-package easyzhang.dto;
+package com.easyzhang.dto;
 
 
 import java.util.LinkedList;
@@ -13,17 +13,8 @@ public class NewsQueue {
     //制造一个URL队列
     private LinkedList<String> urls = new LinkedList<>();
 
-    private static NewsQueue ezDownloadQueue;
+    public NewsQueue(){}
 
-    private NewsQueue(){}
-
-    public static NewsQueue getInstance(){
-        return ezDownloadQueue;
-    }
-
-    public static void createEzDownloadQueue(){
-        ezDownloadQueue = new NewsQueue();
-    }
     public synchronized void push(String url){
         urls.addFirst(url);
     }

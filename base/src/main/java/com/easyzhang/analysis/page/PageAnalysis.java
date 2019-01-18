@@ -1,18 +1,27 @@
 package com.easyzhang.analysis.page;
 
+import com.easyzhang.dto.NewsQueue;
+
+import java.io.IOException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
 /**
  * @author EasyZhang
  * @date 2019/1/18 -  14:40
  */
-public abstract class PageAnalysis implements Runnable {
+public abstract class PageAnalysis{
 
-    protected String url;
+    protected NewsQueue newsQueue;
+    protected ExecutorService executorService = Executors.newFixedThreadPool(5);
 
-    public String getUrl() {
-        return url;
+    abstract public void asynGetNews();
+
+    public NewsQueue getNewsQueue() {
+        return newsQueue;
     }
 
-    public void setUrl(String url) {
-        this.url = url;
+    public void setNewsQueue(NewsQueue newsQueue) {
+        this.newsQueue = newsQueue;
     }
 }

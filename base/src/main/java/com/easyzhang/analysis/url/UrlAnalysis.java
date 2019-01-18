@@ -19,4 +19,6 @@ public abstract class UrlAnalysis {
      }
 
      abstract String getPattern();
+
+     abstract void getNewsUrls();
 }

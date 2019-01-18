@@ -1,4 +1,4 @@
-package easyzhang.dto;
+package com.easyzhang.dto;
 
 
 
