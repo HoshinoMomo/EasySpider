@@ -1,25 +1,28 @@
-package com.easyzhang.util;
+package easyzhang.dto;
 
-import java.net.URL;
+
 import java.util.LinkedList;
 
 /**
- * Created by EasyZhang on 2017-12-29.
+ * @author EasyZhang
+ * @date 2019/1/18 -  16:10
  */
-public class EzWaitQueue {
-    //制造一个等待扫描的 URL队列
+
+public class NewsQueue {
+
+    //制造一个URL队列
     private LinkedList<String> urls = new LinkedList<>();
 
-    private static EzWaitQueue ezWaitQueue;
+    private static NewsQueue ezDownloadQueue;
 
-    private EzWaitQueue(){}
+    private NewsQueue(){}
 
-    public static EzWaitQueue getInstance(){
-        return ezWaitQueue;
+    public static NewsQueue getInstance(){
+        return ezDownloadQueue;
     }
 
-    public static void createEzWaitQueue(){
-        ezWaitQueue = new EzWaitQueue();
+    public static void createEzDownloadQueue(){
+        ezDownloadQueue = new NewsQueue();
     }
     public synchronized void push(String url){
         urls.addFirst(url);
