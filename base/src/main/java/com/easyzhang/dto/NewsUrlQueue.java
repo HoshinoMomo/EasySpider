@@ -8,12 +8,12 @@ import java.util.LinkedList;
  * @date 2019/1/18 -  16:10
  */
 
-public class NewsQueue {
+public class NewsUrlQueue {
 
     //制造一个URL队列
     private LinkedList<String> urls = new LinkedList<>();
 
-    public NewsQueue(){}
+    public NewsUrlQueue(){}
 
     public synchronized void push(String url){
         urls.addFirst(url);

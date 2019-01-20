@@ -1,24 +1,20 @@
 package com.easyzhang.analysis.url;
 
 
+import com.easyzhang.dto.NewsUrlQueue;
+
+import java.time.LocalDate;
+import java.util.List;
+import java.util.function.Function;
+
 /**
  * @author EasyZhang
  * @date 2019/1/18 -  16:16
- *
- * 分析URL链接是否符合规范
- * EX：   网易的新闻都是  163.com/19/0118/小时/hash.html
- *        分析扫描出来的网址是不是都和这个匹配
+ * 根据rootUrls 找到一堆新闻的链接，并放到队列里面
  */
 
-public abstract class UrlAnalysis {
+public interface UrlAnalysis extends Function<List<String>, NewsUrlQueue> {
 
-     //url链接是否符合URL规范
-
-     boolean isOrderPattern(String url){
-         return url.contains(getPattern());
-     }
-
-     abstract String getPattern();
-
-     abstract void getNewsUrls();
+    @Override
+    NewsUrlQueue apply(List<String> rootUrls);
 }

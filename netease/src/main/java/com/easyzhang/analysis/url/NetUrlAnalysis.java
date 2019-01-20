@@ -1,31 +1,32 @@
 package com.easyzhang.analysis.url;
 
-import com.easyzhang.dto.NewsQueue;
+import com.easyzhang.analysis.page.PageAnalysis;
+import com.easyzhang.dto.NewsUrlQueue;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.time.LocalDate;
+import java.util.List;
 
 /**
  * @author EasyZhang
  * @date 2019/1/18 -  17:13
  */
 
-public class NetUrlAnalysis extends UrlAnalysis {
+public class NetUrlAnalysis implements UrlAnalysis {
 
     private static final Logger logger = LoggerFactory.getLogger(NetUrlAnalysis.class);
-    private static final String[] ROOT_URLS = {"http://news.163.com/world","http://war.163.com/"};
+    @Override
+    public NewsUrlQueue apply(List<String> rootUrls) {
+        NewsUrlQueue newsUrlQueue = new NewsUrlQueue();
+        rootUrls.forEach(rootUrl-> {
 
-    protected NewsQueue newsQueue;
-
-    public NetUrlAnalysis(NewsQueue newsQueue) {
-        this.newsQueue = newsQueue;
+        });
+        return newsUrlQueue;
     }
 
-    @Override
-    String getPattern() {
+    private boolean getPattern(String testUrl, LocalDate localDate) {
         String baseURL = "163.com/";
-        LocalDate localDate = LocalDate.now();
         //减去2000年
         int thisYear = localDate.getYear() - 2000;
         int thisMonth = localDate.getMonthValue();
@@ -44,16 +45,6 @@ public class NetUrlAnalysis extends UrlAnalysis {
         }else {
             baseURL += thisDay+"/";
         }
-        return baseURL;
-    }
-
-    @Override
-    public void getNewsUrls() {
-        for(String rootUrl : ROOT_URLS){
-
-        }
-        if(isOrderPattern("https://news.163.com/19/0118/05/E5PFTIRC0001899N.html")){
-            newsQueue.push("https://news.163.com/19/0118/05/E5PFTIRC0001899N.html");
-        }
+        return testUrl.contains(baseURL);
     }
 }
