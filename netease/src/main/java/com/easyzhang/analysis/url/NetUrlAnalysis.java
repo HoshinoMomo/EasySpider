@@ -2,10 +2,16 @@ package com.easyzhang.analysis.url;
 
 import com.easyzhang.analysis.page.PageAnalysis;
 import com.easyzhang.dto.NewsUrlQueue;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -17,12 +23,15 @@ public class NetUrlAnalysis implements UrlAnalysis {
 
     private static final Logger logger = LoggerFactory.getLogger(NetUrlAnalysis.class);
     @Override
-    public NewsUrlQueue apply(List<String> rootUrls) {
-        NewsUrlQueue newsUrlQueue = new NewsUrlQueue();
-        rootUrls.forEach(rootUrl-> {
-
-        });
-        return newsUrlQueue;
+    public List<String> apply(Document document) {
+        List<String> stringList = new ArrayList<>();
+        Elements elements = document.select("a[href]");
+        for(Element element : elements){
+            if(getPattern(element.attr("href"),LocalDate.now())){
+                stringList.add(element.attr("href"));
+            }
+        }
+        return stringList;
     }
 
     private boolean getPattern(String testUrl, LocalDate localDate) {
@@ -40,11 +49,11 @@ public class NetUrlAnalysis implements UrlAnalysis {
             baseURL += thisMonth+"";
         }
 
-        if(thisDay<10){
+   /*     if(thisDay<10){
             baseURL += "0"+thisDay+"/";
         }else {
             baseURL += thisDay+"/";
-        }
+        }*/
         return testUrl.contains(baseURL);
     }
 }
