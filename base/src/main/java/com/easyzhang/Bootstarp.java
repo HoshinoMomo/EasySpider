@@ -1,6 +1,7 @@
 package com.easyzhang;
 
 import com.easyzhang.analysis.page.PageAnalysis;
+import com.easyzhang.analysis.pattern.UrlPattern;
 import com.easyzhang.analysis.url.UrlAnalysis;
 import com.easyzhang.dto.NewsDto;
 import com.easyzhang.dto.NewsUrlQueue;
@@ -12,6 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -25,7 +27,7 @@ import java.util.concurrent.Executors;
  * @param <T>
  * @param <R>
  */
-public abstract class Bootstarp<T extends UrlAnalysis,R extends PageAnalysis> {
+public abstract class Bootstarp<T extends UrlAnalysis,R extends PageAnalysis> implements UrlPattern{
 
     private static final Logger logger = LoggerFactory.getLogger(Bootstarp.class);
 
@@ -48,21 +50,32 @@ public abstract class Bootstarp<T extends UrlAnalysis,R extends PageAnalysis> {
          newsUrlQueue.init(rootUrls);
          while(!newsUrlQueue.isEmpty()){
              try {
-                 Document document = Jsoup.connect(newsUrlQueue.pop()).get();
-                 this.newsUrlQueue.pushAll(urlAnalysis.apply(document));
-
-                 //如果拿超过了500条，就关闭队列，不能再push
-                 if(this.newsUrlQueue.getSize() > 5000){
-                     this.newsUrlQueue.cloe();
+                 String url = newsUrlQueue.pop();
+                 //  //开头的东西，不要了
+                 if(url.charAt(0) == '/'){
+                     continue;
                  }
+                 //判断是否符合扫描的URL规范
+                 if(isUrlMatchPattern(url, LocalDate.now())){
+                     logger.info(url);
+                     Document document = Jsoup.connect(url).get();
+                     this.newsUrlQueue.pushAll(urlAnalysis.apply(document));
 
-                 //不断的读新闻,读新闻，丢进线程池
-                 executorService.submit(()->{
-                     NewsDto newsDto = pageAnalysis.apply(document);
-                     if(Objects.nonNull(newsDto)){
-                         logger.info(newsDto.getTitle());
+                     //如果拿超过了500条，就关闭队列，不能再push
+                     if(this.newsUrlQueue.getSize() > 5000){
+                         this.newsUrlQueue.cloe();
                      }
-                 });
+                     //判断这个URL是不是新闻URL
+                     if(isNewsUrlMatchPattern(url, LocalDate.now())){
+                         //不断的读新闻,读新闻，丢进线程池
+                         executorService.submit(()->{
+                             NewsDto newsDto = pageAnalysis.apply(document);
+                             if(Objects.nonNull(newsDto)){
+                                 logger.info(newsDto.getTitle());
+                             }
+                         });
+                     }
+                 }
              } catch (HttpStatusException e) {
                  logger.error("页面缺失" + e.getMessage());
              } catch (IOException e) {

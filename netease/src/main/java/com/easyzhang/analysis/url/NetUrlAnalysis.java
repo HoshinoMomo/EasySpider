@@ -27,33 +27,8 @@ public class NetUrlAnalysis implements UrlAnalysis {
         List<String> stringList = new ArrayList<>();
         Elements elements = document.select("a[href]");
         for(Element element : elements){
-            if(getPattern(element.attr("href"),LocalDate.now())){
-                stringList.add(element.attr("href"));
-            }
+            stringList.add(element.attr("href"));
         }
         return stringList;
-    }
-
-    private boolean getPattern(String testUrl, LocalDate localDate) {
-        String baseURL = "163.com/";
-        //减去2000年
-        int thisYear = localDate.getYear() - 2000;
-        int thisMonth = localDate.getMonthValue();
-        int thisDay = localDate.getDayOfMonth();
-
-        baseURL += thisYear+"/";
-
-        if(thisMonth<10){
-            baseURL += "0"+thisMonth;
-        }else {
-            baseURL += thisMonth+"";
-        }
-
-   /*     if(thisDay<10){
-            baseURL += "0"+thisDay+"/";
-        }else {
-            baseURL += thisDay+"/";
-        }*/
-        return testUrl.contains(baseURL);
     }
 }
