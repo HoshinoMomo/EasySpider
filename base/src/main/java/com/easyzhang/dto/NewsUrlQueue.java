@@ -16,6 +16,7 @@ public class NewsUrlQueue {
     //制造一个URL队列
     private LinkedList<String> urls = new LinkedList<>();
     private boolean close = true;
+    //已经下载的新闻
     private Set<String> foundNews = new HashSet<>();
 
     public NewsUrlQueue(){}
