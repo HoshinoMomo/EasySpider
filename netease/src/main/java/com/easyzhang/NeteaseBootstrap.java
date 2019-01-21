@@ -24,38 +24,8 @@ public class NeteaseBootstrap extends Bootstarp<NetUrlAnalysis, NetPageAnalysis>
         this.pageAnalysis = netPageAnalysis;
     }
 
-    @Override
-    public boolean isUrlMatchPattern(String testUrl, LocalDate localDate) {
-        String baseURL = "163.com/";
-        return testUrl.contains(baseURL);
-    }
-
-    @Override
-    public boolean isNewsUrlMatchPattern(String testUrl, LocalDate localDate) {
-        String baseURL = "163.com/";
-        //减去2000年
-        int thisYear = localDate.getYear() - 2000;
-        int thisMonth = localDate.getMonthValue();
-        int thisDay = localDate.getDayOfMonth();
-
-        baseURL += thisYear+"/";
-
-        if(thisMonth<10){
-            baseURL += "0"+thisMonth;
-        }else {
-            baseURL += thisMonth+"";
-        }
-
-   /*     if(thisDay<10){
-            baseURL += "0"+thisDay+"/";
-        }else {
-            baseURL += thisDay+"/";
-        }*/
-        return testUrl.contains(baseURL);
-    }
-
     public static void main(String[] args){
-        List<String> rootUrls = Arrays.asList("http://news.163.com/");
+        List<String> rootUrls = Arrays.asList("http://news.163.com/","http://news.163.com/world","http://war.163.com/","http://news.163.com/rank/");
         NeteaseBootstrap neteaseBootstrap = new NeteaseBootstrap(new NetUrlAnalysis(),rootUrls,new NetPageAnalysis());
         neteaseBootstrap.start();
     }
