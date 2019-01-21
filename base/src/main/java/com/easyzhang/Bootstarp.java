@@ -5,6 +5,7 @@ import com.easyzhang.analysis.url.UrlAnalysis;
 import com.easyzhang.dto.NewsDto;
 import com.easyzhang.dto.NewsUrlQueue;
 import org.apache.commons.collections4.CollectionUtils;
+import org.jsoup.HttpStatusException;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.slf4j.Logger;
@@ -62,18 +63,22 @@ public abstract class Bootstarp<T extends UrlAnalysis,R extends PageAnalysis> {
                          logger.info(newsDto.getTitle());
                      }
                  });
+             } catch (HttpStatusException e) {
+                 logger.error("页面缺失" + e.getMessage());
              } catch (IOException e) {
                  logger.error(e.getMessage(),e);
              }
+
          }
          sleep();
      }
 
      //休息
      private void sleep(){
-        logger.info("{}进入休息状态，休息一个小时");
+        logger.info("进入休息状态，休息一个小时");
          try {
-             Thread.sleep(360000);
+             Thread.sleep(3600000);
+             logger.info("休息结束，开始干活");
              work();
          } catch (InterruptedException e) {
              logger.error(e.getMessage(),e);
