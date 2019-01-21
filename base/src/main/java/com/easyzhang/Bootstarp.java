@@ -52,7 +52,7 @@ public abstract class Bootstarp<T extends UrlAnalysis,R extends PageAnalysis> {
                  this.newsUrlQueue.pushAll(urlAnalysis.apply(document));
 
                  //如果拿超过了500条，就关闭队列，不能再push
-                 if(this.newsUrlQueue.getSize() > 500){
+                 if(this.newsUrlQueue.getSize() > 5000){
                      this.newsUrlQueue.cloe();
                  }
 
